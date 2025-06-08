@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+}
+
+:root {
+    --clr-light-blue: #31C3BD;
+    --clr-light-blue-hover: #65E9E4;
+    --clr-light-yellow: #F2B137;
+    --clr-light-yellow-hover: #FFC860;
+    --clr-dark-navy: #1A2A33;
+    --clr-semi-dark-navy: #1F3641;
+    --clr-silver: #A8BFC9;
+    --clr-silver-hover: #DBE8ED;
+}
+
+body {
+    font-family: "Outfit", sans-serif;
+    background-color: var(--clr-dark-navy);
+    width: 100%;
+    min-height: 100vh;
+    align-content: center;
+}
+
+img {
+    display: block;
+}
+
+.tiktak {
+    width: fit-content;
+    margin-inline: auto;
+}
+
+.tiktak__logo {
+    height: 32px; width: 72px;
+    margin-inline: auto;
+    margin-bottom: 30px;
+}
+
+.tiktak-content {
+    width: 327px; height: 205px;
+    border-radius: 15px;
+    background-color: var(--clr-semi-dark-navy);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 10px 1px #000;
+}
+
+.tiktak__title {
+    color: var(--clr-silver);
+    font-weight: bold;
+    font-size: 16px;
+    line-height: auto;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.tiktak__choose {
+    display: flex;
+    align-items: center;
+    background-color: var(--clr-dark-navy);
+    border-radius: 10px;
+    height: 72px;
+    padding: 10px;
+}
+
+.option {
+    flex-grow: 1;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    height: 54px;
+    color: var(--clr-silver);
+    display: grid;
+    place-items: center;
+}
+
+.option svg {
+    object-fit: contain;
+    width: 30px;
+    height: 30px;
+}
+
+
+.option:hover {
+    background-color: var(--clr-silver-hover);
+    color: var(--clr-dark-navy);
+}
+
+.tiktak__note {
+    color: var(--clr-silver);
+    font-size: 14px;
+    line-height: auto;
+    letter-spacing: 0.88px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.titak__btns {
+    margin-top: 50px;
+    display: flex; flex-direction: column; gap: 30px;
+}
+
+.btn-tiktak {
+    all: unset;
+    display: block;
+    color: var(--clr-dark-navy);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 1.25px;
+    line-height: auto;
+    background-color: var(--clr-silver);
+    border-radius: 15px;
+    height: 60px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    display: block;
+}
+
+
+.btn-tiktak--cpu {
+    background-color: var(--clr-light-yellow);
+    box-shadow: 0 7px 0 #bb8624;
+}
+
+.btn-tiktak--cpu:hover {
+    background-color: var(--clr-light-yellow-hover);
+}
+
+.btn-tiktak--player {
+    background-color: var(--clr-light-blue);
+    box-shadow: 0 7px 0 #208a86;
+}
+
+.btn-tiktak--player:hover {
+    background-color: var(--clr-light-blue-hover);
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+}
+
+.tiktak__game {
+    width: 328px;
+    border: 1px solid white;
+    position: relative;
+}
+
+.tiktak__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 64px;
+}
+
+.tiktak__logo--game {
+    margin: 0;
+}
+
+.tiktak__turn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 15px;
+    background-color: var(--clr-semi-dark-navy);
+    padding: 0 10px;
+}
+
+.option--now svg {
+    width: 20px; height: 20px;
+}
+
+.tiktak__turn-text {
+    font-size: 14px;
+    line-height: auto;
+    font-weight: bold;
+    letter-spacing: 0.88px;
+    color: var(--clr-silver);
+}
+
+.tiktak__back {
+    width: 40px; height: 40px;
+    border-radius: 7px;
+    background-color: var(--clr-silver);
+    box-shadow: 0 7px 0 #7c8b92;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+
+.tiktak__back:hover {
+    background-color: var(--clr-silver-hover);
+}
+
+.tiktak__board {
+    border: 1px solid red;
+    display: grid;
+    grid-template-rows: repeat(3, 96px);
+    grid-template-columns: repeat(3, 96px);
+    gap: 20px;
+}
+
+.cell {
+    border-radius: 10px;
+    background-color: var(--clr-semi-dark-navy);
+    box-shadow: 0 7px 0 #000;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+}
+
+.cell svg {
+    width: 40px; height: 40px;
+}
+
+.x {
+    color: var(--clr-light-blue);
+}
+
+.o {
+    color: var(--clr-light-yellow);
+}
+
+.cell[data-option='x']:hover {
+    background-color: var(--clr-light-blue);
+}
+
+.cell[data-option='x']:hover .x {
+    color: var(--clr-dark-navy);
+}
+
+.cell[data-option='o']:hover {
+    background-color: var(--clr-light-yellow);
+}
+
+.cell[data-option='o']:hover .o {
+    color: var(--clr-dark-navy);
+}
+
+.tiktak__results {
+    margin-top: 24px;
+    display: flex; justify-content: space-between;
+    gap: 20px;
+}
+
+.result {
+    height: 64px;
+    width: 96px;
+    border-radius: 15px;
+    text-align: center;
+    align-content: center;
+    color: var(--clr-dark-navy);
+}
+
+.you {
+    background-color: var(--clr-light-blue);
+}
+
+.ties {
+    background-color: var(--clr-silver);
+}
+
+.cpu {
+    background-color: var(--clr-light-yellow);
+}
+
+.tiktak__text {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: auto;
+    letter-spacing: 0.88px;
+}
+
+.tiktak__count {
+    font-weight: bold;
+    font-size: 20px;
+    letter-spacing: 1.25px;
+    line-height: auto;
+}
+
+.main {
+    position: relative;
+}
+
+.main--finishgame::before {
+    content: '';
+    background-color: #00000091;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+
+.tiktak__round {
+    position: fixed;
+    background-color: var(--clr-semi-dark-navy);
+    padding: 50px;
+    top: 0; 
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+
+}
+
+.tiktak__message {
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 0.88px;
+    line-height: auto;
+}

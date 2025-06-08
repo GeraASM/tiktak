@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+    <link rel="stylesheet" href="./styles/style.css" />
+    <title>Frontend Mentor | Tic Tac Toe</title>
+</head>
+<body>
+    <header style="display: none;" class="tiktak">
+        <img class="tiktak__logo" src="./assets/logo.svg" alt="Logo">
+        <section class="tiktak-content">
+            <h2 class="tiktak__title">PICK PLAYER 1'S MARK</h2>
+            <div class="tiktak__choose">
+                <div class="option">
+                    <svg viewBox="0 0 64 64" width="72" height="72" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="CurrentColor" fill-rule="evenodd"/></svg>
+                </div>
+                <div class="option">
+                    <svg viewBox="0 0 64 64" width="72" height="72" xmlns="http://www.w3.org/2000/svg"><path d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z" fill="CurrentColor"/></svg>
+                </div>
+            </div>
+            <p class="tiktak__note">REMEMBER: X GOES FIRST</p>
+        </section>
+
+        <div class="titak__btns">
+            <button class="btn-tiktak btn-tiktak--cpu" type="button">NEW GAME (VS CPU)</button>
+            <button class="btn-tiktak btn-tiktak--player" type="button">NEW GAME (VS PLAYER)</button>
+        </div>
+    </header>
+    <main class="main">
+        <div class="tiktak tiktak__game">
+            <div class="tiktak__header">
+                <img class="tiktak__logo tiktak__logo--game" src="./assets/logo.svg" alt="Logo">
+                <div class="tiktak__turn">
+                    <div class="option option--now">
+                        <svg viewBox="0 0 64 64" width="72" height="72" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="CurrentColor" fill-rule="evenodd"/></svg>
+                    </div>
+                    <p class="tiktak__turn-text">TURN</p>
+                </div>
+                <div class="tiktak__back">
+                    <img class="reset" src="./assets/icon-restart.svg" alt="Reset">
+                </div>
+            </div>
+            <section class="tiktak__board">
+                <div class="cell" data-option=""></div>
+                <div class="cell" data-option="x">
+                    <svg class="x" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="CurrentColor" fill-rule="evenodd"/></svg>
+                </div>
+                <div class="cell" data-option=""></div>
+                <div class="cell" data-option=""></div>
+                <div class="cell" data-option='o'>
+                    <svg class="o" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z" fill="CurrentColor"/></svg>
+                </div>
+                <div class="cell" data-option=""></div>
+                <div class="cell" data-option=""></div>
+                <div class="cell" data-option=""></div>
+                <div class="cell" data-option=""></div>
+            </section>
+            <section class="tiktak__results">
+                <div class="result you">
+                    <p class="tiktak__text">X <span class="gamer-x">(YOU)</span></p>
+                    <p class="tiktak__count">0</p>
+                </div>
+                <div class="result ties">
+                    <p class="tiktak__text">TITES</p>
+                    <p class="tiktak__count">0</p>
+                </div>
+                <div class="result cpu">
+                    <p class="tiktak__text">O <span class="gamer-o">(CPU)</span></p>
+                    <p class="tiktak__count">0</p>
+                </div>
+            </section>
+            <section class="tiktak__round">
+                    <h3 class="tiktak__message">OH NO, YOU LOST...</h3>
+                    <div class="tiktak__who-won">
+                        <div class="cell--won" data-option='o'>
+                            <svg class="o" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z" fill="CurrentColor"/></svg>
+                        </div>
+                        <h2 class="tiktak__win">TAKES THE ROUND</h2>
+                    </div>
+                    <div class="tiktak__btns--out">
+                    </div>
+            </section>
+        </div>
+    </main>
+  <!-- New game menu start -->
+
+  <!-- Pick player 1's mark
+  Remember: X goes first
+
+  New Game (vs CPU)
+  New Game (vs player) -->
+
+  <!-- New game menu end -->
+
+  <!-- Game board start -->
+
+  <!-- x/o icon turn -->
+
+  <!-- X (You) Your score -->
+  <!-- Ties Ties score -->
+  <!-- X (CPU) CPU score -->
+
+  <!-- Oh no, you lost
+  You won!
+  Player 1/2 wins! -->
+
+  <!-- x/o icon takes the round
+  Round tied
+  Restart game?
+
+  Quit
+  Next round
+  No, cancel
+  Yes, restart -->
+
+  <!-- Game board end -->
+
+</body>
+</html>
