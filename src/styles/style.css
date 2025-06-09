@@ -41,6 +41,7 @@ img {
 
 .tiktak-content {
     width: 327px; height: 205px;
+
     border-radius: 15px;
     background-color: var(--clr-semi-dark-navy);
     padding: 30px;
@@ -72,7 +73,6 @@ img {
     flex-grow: 1;
     border-radius: 10px;
     cursor: pointer;
-    text-align: center;
     height: 54px;
     color: var(--clr-silver);
     display: grid;
@@ -87,6 +87,11 @@ img {
 
 
 .option:hover {
+    background-color: var(--clr-silver-hover);
+    color: var(--clr-dark-navy);
+}
+
+.option--clicked {
     background-color: var(--clr-silver-hover);
     color: var(--clr-dark-navy);
 }
@@ -106,7 +111,8 @@ img {
 }
 
 .btn-tiktak {
-    all: unset;
+    font-family: inherit;
+    border: none;
     display: block;
     color: var(--clr-dark-navy);
     font-weight: 700;
@@ -141,15 +147,18 @@ img {
     background-color: var(--clr-light-blue-hover);
 }
 
+/* START GAME */
 .main {
     width: 100%;
-    height: 100%;
+    min-height: auto;
+    border: 1px solid orange;
 }
 
 .tiktak__game {
     width: 328px;
-    border: 1px solid white;
     position: relative;
+    width: fit-content;
+    margin-inline: auto;
 }
 
 .tiktak__header {
@@ -170,6 +179,7 @@ img {
     border-radius: 15px;
     background-color: var(--clr-semi-dark-navy);
     padding: 0 10px;
+    box-shadow: 0 4px 0 #000;
 }
 
 .option--now svg {
@@ -188,7 +198,7 @@ img {
     width: 40px; height: 40px;
     border-radius: 7px;
     background-color: var(--clr-silver);
-    box-shadow: 0 7px 0 #7c8b92;
+    box-shadow: 0 5px 0 #7c8b92;
     display: grid;
     place-items: center;
     cursor: pointer;
@@ -199,7 +209,6 @@ img {
 }
 
 .tiktak__board {
-    border: 1px solid red;
     display: grid;
     grid-template-rows: repeat(3, 96px);
     grid-template-columns: repeat(3, 96px);
@@ -215,8 +224,13 @@ img {
     cursor: pointer;
 }
 
+.cell:hover {
+    transform: scale(1.05);
+}
+
 .cell svg {
-    width: 40px; height: 40px;
+    width: 43px; height: 40px;
+    object-fit: contain;
 }
 
 .x {
@@ -227,19 +241,27 @@ img {
     color: var(--clr-light-yellow);
 }
 
-.cell[data-option='x']:hover {
+.cell[data-option='x'][data-correct="win"] {
     background-color: var(--clr-light-blue);
 }
 
-.cell[data-option='x']:hover .x {
+.cell[data-option='x'][data-correct="win"] .x {
     color: var(--clr-dark-navy);
 }
 
-.cell[data-option='o']:hover {
+.cell[data-option='o'][data-correct="win"] {
     background-color: var(--clr-light-yellow);
 }
 
-.cell[data-option='o']:hover .o {
+.cell[data-option='o'][data-correct="win"] .o {
+    color: var(--clr-dark-navy);
+}
+
+.cell[data-option='x'][data-correct='']:hover .x {
+    color: var(--clr-dark-navy);
+}
+
+.cell[data-option='o'][data-correct='']:hover .o {
     color: var(--clr-dark-navy);
 }
 
@@ -284,14 +306,13 @@ img {
     line-height: auto;
 }
 
-.main {
-    position: relative;
-}
-
-.main--finishgame::before {
+/* FINISH THE GAME SHOWS THE WIN */
+.body--finishgame::before {
     content: '';
-    background-color: #00000091;
-    position: absolute;
+    background-color: #000000b7;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     z-index: 1;
@@ -301,19 +322,256 @@ img {
 .tiktak__round {
     position: fixed;
     background-color: var(--clr-semi-dark-navy);
-    padding: 50px;
-    top: 0; 
-    left: 0;
+    top: 50%; 
+    left: 50%;
+    width: 100%;
+    height: 228px;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 20px;
     z-index: 2;
-
+    
 }
+
 
 .tiktak__message {
     font-weight: bold;
     font-size: 14px;
     letter-spacing: 0.88px;
     line-height: auto;
+    color: var(--clr-silver);
+}
+
+
+
+.tiktak__who-won {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cell--won svg {
+    width: 32px;
+    height: 32px;
+    vertical-align: baseline;
+}
+
+.tiktak__win {
+    color: var(--clr-silver);
+    font-weight: bold;
+    font-size: 24px;
+    line-height: auto;
+    letter-spacing: 1.5px;
+}
+.you-lost .tiktak__win {
+    color: var(--clr-light-yellow);
+}
+
+.you-won .tiktak__win {
+    color: var(--clr-light-blue);
+}
+
+.tiktak__btns--out {
+    display: flex;
+    gap: 20px;
+}
+
+.btn-quit {
+    box-shadow: 0 7px 0 #7c8b92;
+    flex-grow: 0;
+    min-width: 76px !important;
+}
+
+.btn-quit:hover {
+    background-color: var(--clr-silver-hover);
+}
+
+.btn-next {
+    background-color: var(--clr-light-yellow);
+    box-shadow: 0 7px 0 #bb8624;
+    min-width: 146px !important;
+}
+
+.btn-next:hover {
+    background-color: var(--clr-light-yellow-hover);
+}
+
+.btn-tiktak {
+    padding: 0 10px;
+}
+
+.you-reset .btn-cancel {
+    width: fit-content;
+    box-shadow: 0 7px 0 #7c8b92;
+    min-width: 146px !important;
+}
+
+.btn-cancel:hover {
+    background-color: var(--clr-silver-hover);
+}
+
+.you-reset .btn-reset {
+    width: fit-content;
+    min-width: 150px;
+    background-color: var(--clr-light-yellow);
+    box-shadow: 0 7px 0 #bb8624;
+}
+
+.btn-reset:hover {
+    background-color: var(--clr-light-yellow-hover);
+}
+
+.you-lost {
+    /* display: flex; */
+    display: none;
+}
+
+.you-won {
+    /* display: flex; */
+    display: none;
+}
+
+.tied {
+    /* display: flex; */
+    display: none;
+}
+
+.you-reset {
+    /* display: flex; */
+    display: none;
+}
+
+/* Header game */
+.tiktak {
+    display: block;
+    /* display: none; */
+}
+
+/* Start game */
+.tiktak__game {
+    /* display: block; */
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    .tiktak {
+        width: 460px;
+    }
+
+    .tiktak__logo {
+        margin-bottom: 40px;
+    }
+
+    .tiktak-content {
+        width: 100%;
+    }
+
+    .titak__btns {
+        margin-top: 40px;
+    }
+
+    .btn-tiktak {
+        min-width: 100%;
+    }
+
+    .tiktak__game {
+        width: 460px;
+    }
+
+    .tiktak__header {
+        margin-bottom: 20px;
+    }
+
+    .tiktak__logo--game {
+        margin: 0;
+        height: 32px;
+        width: 72px;
+    }
+
+    .tiktak__turn {
+        width: 140px; height: 52px;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .option--now {
+        width: fit-content;
+    }
+    
+    .option--now svg {
+        width: 22px; height: 22px;
+        flex-grow: 1;
+    }
+    
+    .tiktak__turn-text {
+        flex-grow: 1;
+        font-size: 16px;
+    }
+
+    .tiktak__back {
+        width: 52px; height: 52px;
+    }
+
+    .tiktak__board {
+        grid-template-rows: repeat(3, 140px);
+        grid-template-columns: repeat(3, 140px);
+    }
+
+    .cell svg {
+        width: 64px; height: 64px;
+        object-fit: contain;
+    }
+
+    .result {
+        flex-grow: 1;
+        height: 72px;
+    }
+
+    .tiktak__count {
+        font-size: 24px;
+    }
+
+    .tiktak__round {
+        justify-content: center;
+        height: 266px;
+        gap: 22px;
+    }
+
+    .tiktak__message {
+        font-size: 16px;
+    }
+
+    .tiktak__who-won {
+        gap: 20px;
+    }
+
+    .cell--won svg {
+        width: 64px;
+        height: 64px;
+    }
+    .tiktak__win {
+        font-size: 40px;
+    }
+
+    .tiktak__btns--out {
+        justify-content: center;
+        gap: 20px;
+        width: 100%;
+    }
+
+    .btn-quit, .btn-next {
+        width: fit-content;
+    }
+
+}
+
+@media screen and (min-width: 1024px) {
+    .option svg {
+        width: 32px; height: 32px;
+    }
+
+    
 }

@@ -8,16 +8,16 @@
     <link rel="stylesheet" href="./styles/style.css" />
     <title>Frontend Mentor | Tic Tac Toe</title>
 </head>
-<body>
-    <header style="display: none;" class="tiktak">
+<body class="">
+    <header id="configuration-game" class="tiktak">
         <img class="tiktak__logo" src="./assets/logo.svg" alt="Logo">
         <section class="tiktak-content">
             <h2 class="tiktak__title">PICK PLAYER 1'S MARK</h2>
             <div class="tiktak__choose">
-                <div class="option">
+                <div id="x" class="option" data-choose="x">
                     <svg viewBox="0 0 64 64" width="72" height="72" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="CurrentColor" fill-rule="evenodd"/></svg>
                 </div>
-                <div class="option">
+                <div id="o" class="option" data-choose="o">
                     <svg viewBox="0 0 64 64" width="72" height="72" xmlns="http://www.w3.org/2000/svg"><path d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z" fill="CurrentColor"/></svg>
                 </div>
             </div>
@@ -25,12 +25,12 @@
         </section>
 
         <div class="titak__btns">
-            <button class="btn-tiktak btn-tiktak--cpu" type="button">NEW GAME (VS CPU)</button>
-            <button class="btn-tiktak btn-tiktak--player" type="button">NEW GAME (VS PLAYER)</button>
+            <button id="btn-vscpu" class="btn-tiktak btn-tiktak--cpu" data-game="cpu" type="button">NEW GAME (VS CPU)</button>
+            <button id="btn-vsplayer" class="btn-tiktak btn-tiktak--player" data-game="player" type="button">NEW GAME (VS PLAYER)</button>
         </div>
     </header>
     <main class="main">
-        <div class="tiktak tiktak__game">
+        <div id="board" class="tiktak__game">
             <div class="tiktak__header">
                 <img class="tiktak__logo tiktak__logo--game" src="./assets/logo.svg" alt="Logo">
                 <div class="tiktak__turn">
@@ -44,19 +44,33 @@
                 </div>
             </div>
             <section class="tiktak__board">
-                <div class="cell" data-option=""></div>
-                <div class="cell" data-option="x">
-                    <svg class="x" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="CurrentColor" fill-rule="evenodd"/></svg>
+                <div class="cell" data-number="1" data-option="" data-correct="">
+
                 </div>
-                <div class="cell" data-option=""></div>
-                <div class="cell" data-option=""></div>
-                <div class="cell" data-option='o'>
-                    <svg class="o" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z" fill="CurrentColor"/></svg>
+                <div class="cell" data-number="2" data-option="" data-correct="">
+                    <!-- <svg class="x" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="CurrentColor" fill-rule="evenodd" stroke="#31C3BD" stroke-width="2"/></svg> -->
                 </div>
-                <div class="cell" data-option=""></div>
-                <div class="cell" data-option=""></div>
-                <div class="cell" data-option=""></div>
-                <div class="cell" data-option=""></div>
+                <div class="cell" data-number="3" data-option="" data-correct="">
+
+                </div>
+                <div class="cell" data-number="4" data-option="" data-correct="">
+
+                </div>
+                <div class="cell" data-number="5" data-option='' data-correct="">
+                    <!-- <svg class="o" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z" fill="CurrentColor" stroke="#F2B137" stroke-width="2"/></svg> -->
+                </div>
+                <div class="cell" data-number="6" data-option="" data-correct="">
+                    <!-- <svg class="x" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="CurrentColor" fill-rule="evenodd" stroke="#31C3BD" stroke-width="2"/></svg> -->
+                </div>
+                <div class="cell" data-number="7" data-option='' data-correct="">
+                    <!-- <svg class="o" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z" fill="CurrentColor" stroke="#F2B137" stroke-width="2"/></svg> -->
+                </div>
+                <div class="cell" data-number="8" data-option="" data-correct="">
+
+                </div>
+                <div class="cell" data-number="9" data-option="" data-correct="">
+
+                </div>
             </section>
             <section class="tiktak__results">
                 <div class="result you">
@@ -72,7 +86,7 @@
                     <p class="tiktak__count">0</p>
                 </div>
             </section>
-            <section class="tiktak__round">
+            <section class="tiktak__round you-lost">
                     <h3 class="tiktak__message">OH NO, YOU LOST...</h3>
                     <div class="tiktak__who-won">
                         <div class="cell--won" data-option='o'>
@@ -81,10 +95,43 @@
                         <h2 class="tiktak__win">TAKES THE ROUND</h2>
                     </div>
                     <div class="tiktak__btns--out">
+                        <button class="btn-tiktak btn-quit" type="button">QUIT</button>
+                        <button class="btn-tiktak btn-next" type="button">NEXT ROUND</button>
+                        <!-- 
+                         -->
+                    </div>
+            </section>
+            <section class="tiktak__round you-won">
+                    <h3 class="tiktak__message">YOU WON!</h3>
+                    <div class="tiktak__who-won">
+                        <div class="cell--won" data-option='x'>
+                            <svg class="x" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="CurrentColor" fill-rule="evenodd"/></svg>
+                        </div>
+                        <h2 class="tiktak__win">TAKES THE ROUND</h2>
+                    </div>
+                    <div class="tiktak__btns--out">
+                        <button class="btn-tiktak btn-quit" type="button">QUIT</button>
+                        <button class="btn-tiktak btn-next" type="button">NEXT ROUND</button>
+                    </div>
+            </section>
+            <section class="tiktak__round tied">
+                    <h2 class="tiktak__win">ROUND TIED</h2>
+                    <div class="tiktak__btns--out">
+                        <button class="btn-tiktak btn-quit" type="button">QUIT</button>
+                        <button class="btn-tiktak btn-next" type="button">NEXT ROUND</button>
+                    </div>
+            </section>
+
+            <section class="tiktak__round you-reset">
+                    <h2 class="tiktak__win">RESTART GAME?</h2>
+                    <div class="tiktak__btns--out">
+                        <button class="btn-tiktak btn-cancel" type="button">NO, CANCEL</button>
+                        <button class="btn-tiktak btn-reset" type="button">YES, RESTART</button>
                     </div>
             </section>
         </div>
     </main>
+    <script defer src="./js/script.js"></script>
   <!-- New game menu start -->
 
   <!-- Pick player 1's mark
