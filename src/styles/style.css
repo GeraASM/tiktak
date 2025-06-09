@@ -424,6 +424,14 @@ img {
     background-color: var(--clr-light-yellow-hover);
 }
 
+.tiktak__round .tiktak__win[data-text='x'] {
+    color: var(--clr-light-blue);
+}
+
+.tiktak__round .tiktak__win[data-text='o'] {
+    color: var(--clr-light-yellow);
+}
+
 .you-lost {
     /* display: flex; */
     display: none;

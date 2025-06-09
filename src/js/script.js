@@ -1,19 +1,34 @@
 const x = `<svg class="x" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="CurrentColor" fill-rule="evenodd" stroke="#31C3BD" stroke-width="2"/></svg>`;
 const o = `<svg class="o" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z" fill="CurrentColor" stroke="#F2B137" stroke-width="2"/></svg>`;
 
+const xTurn = `<svg viewBox="0 0 64 64" width="72" height="72" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="CurrentColor" fill-rule="evenodd"/></svg>`;
+const oTurn = `<svg viewBox="0 0 64 64" width="72" height="72" xmlns="http://www.w3.org/2000/svg"><path d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z" fill="CurrentColor"/></svg>`;
+
+
+const gamerX = document.querySelector('.gamer-x');
+const gamerO = document.querySelector('.gamer-o')
 const options = document.querySelectorAll('.option');
 
 const positionWinner = [[1, 2, 3], [1, 4, 7], [1, 5, 9], [2, 5, 8], [3, 5, 7], [3, 6, 9], [4, 5, 6], [7, 8, 9]]
 
-const playerOne =  {
+
+let history = {};
+let numRound = 1;
+let winner = '';
+
+let tie = {
+    victories: 0,
+}
+
+let playerOne =  {
     status: false,
     choose: '',
     victories: 0,
     game: [],
-    turn: true
+    turn: false,
 }
 
-const playerTwo = {
+let playerTwo = {
     status: false,
     choose: '',
     victories: 0,
@@ -21,7 +36,7 @@ const playerTwo = {
     turn: false
 }
 
-const cpu = {
+let cpu = {
     status: false,
     choose: '',
     victories: 0,
@@ -31,7 +46,9 @@ const cpu = {
 
 const optionX = document.getElementById('x');
 const optionO = document.getElementById('o');
-
+const gameXCount = document.getElementById('gameXCount');
+const tieCount = document.getElementById('tieCount');
+const gameOCount = document.getElementById('gameOCount');
 
 function optionClicked(e) {
     e.preventDefault();
@@ -42,6 +59,9 @@ function optionClicked(e) {
         playerOne.status = true;
         playerOne.turn = true;
     }
+    if (playerOne.choose === 'x') {
+        gamerX.textContent = '(YOU)';
+    } else {gamerO.textContent = '(YOU)';}
     console.log(`Configuration first Player: ${JSON.stringify(playerOne)}`);
     console.log(playerOne);
 }
@@ -58,11 +78,15 @@ function startGame(e) {
             cpu.status = true;
             if (playerOne.choose === 'x') cpu.choose = 'o'
             if (playerOne.choose === 'o') cpu.choose = 'x';
+            if (cpu.choose === 'o') gamerO.textContent = '(CPU)';
+            if (cpu.choose === 'x') gamerX.textContent = '(CPU)';
             // console.log(`Configuration CPU: ${JSON.stringify(cpu)}`);
         } else if (whoPlay === 'player') {
             playerTwo.status = true;
             if (playerOne.choose === 'x') playerTwo.choose = 'o'
             if (playerOne.choose === 'o') playerTwo.choose = 'x';
+            if (playerTwo.choose === 'o') gamerO.textContent = '(CPU)';
+            if (playerTwo.choose === 'x') gamerX.textContent = '(CPU)';
             // console.log(`Configuration second Player: ${JSON.stringify(playerTwo)}`);
         }
         configurationGame.style.display = 'none';
@@ -72,6 +96,7 @@ function startGame(e) {
         console.log('Remember choose one option to start the game!');
         return
     }
+    turnPlayerOrCpu();
 
 }
 
@@ -84,12 +109,30 @@ btnVsPlayer.addEventListener('click', startGame);
 
 const cells = document.querySelectorAll('.cell');
 const numbersCell = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-const cellsOptionValided = numbersCell.slice();
+let cellsOptionValided = numbersCell.slice();
 
 
 function removeNumber(num) {
     const index = cellsOptionValided.findIndex(number => number === num);
     cellsOptionValided.splice(index, 1);
+}
+
+const optionNow = document.querySelector('.option--now');
+
+function turnPlayerOrCpu() {
+    if (playerOne.turn) {
+        if (playerOne.choose === 'x') {
+            optionNow.innerHTML = xTurn;
+        } else if (playerOne.choose === 'o') {
+            optionNow.innerHTML = oTurn;
+        }
+    } else if (cpu.turn) {
+        if (cpu.choose === 'x') {
+            optionNow.innerHTML = xTurn;
+        } else if (cpu.choose === 'o') {
+            optionNow.innerHTML = oTurn;
+        }
+    }
 }
 
 
@@ -100,12 +143,25 @@ function selectedCell(e) {
         console.log('Wait your turn!');
         return
     } 
-
+    turnPlayerOrCpu();
     if (cellsOptionValided.includes(numberCell)) {
         playerOne.game.push(numberCell);
         removeNumber(numberCell);
         console.log(`Options valided ${cellsOptionValided}`);
-        
+        if (playerOne.game.length >=3) {
+            if (isWin(playerOne.game)) {
+                winner = 'playerOne';
+                numRound++;
+                playerOne.victories++;
+                history[numRound] = winner;
+                if (playerOne.choose === 'x') {
+                    gameXCount.textContent = playerOne.victories;
+                } else if (playerOne.choose === 'o') {
+                    gameOCount.textContent = playerOne.victories;
+                }
+                showWin(winner);
+            } 
+        }
         if (playerOne.choose === 'x') {
             thisCell.dataset.option = playerOne.choose;
             thisCell.innerHTML = x;
@@ -117,10 +173,14 @@ function selectedCell(e) {
         if (!playerOne.turn) {
             if (cpu.status) {
                 cpu.turn = true;
+                turnPlayerOrCpu();
+
                 moveCPU();
+                checkTie();
             }
             if (playerTwo.status) {
                 playerTwo.turn = true;
+                turnPlayerOrCpu();
                 movePlayerTwo();
             }
         }
@@ -131,10 +191,24 @@ function selectedCell(e) {
     console.log(`Configuration first Player: ${JSON.stringify(playerOne)}`);
 }
 
+function checkTie() {
+    console.log('Check tie: ', cellsOptionValided.length, ' Winner:', winner);
+    if (cellsOptionValided.length === 0 && winner === '') {
+        winner = 'tie';
+        tie.victories++;
+        tieCount.textContent = tie.victories;
+        showWin(winner);
+    }
+    actualizar();
+}
+
+
 function moveCPU() {
     const numberChoose = getNumberRandom(cellsOptionValided);
+    cpu.game.push(numberChoose);
+    const numberString = numberChoose.toString();
     cells.forEach(cell => {
-        if (cell.dataset.number === numberChoose.toString()) {
+        if (cell.dataset.number === numberString) {
             if (cpu.choose === 'x') {
                 cell.dataset.option = cpu.choose;
                 cell.innerHTML = x;
@@ -151,10 +225,29 @@ function moveCPU() {
     cpu.turn = false;
     if (playerOne.status) {
         playerOne.turn = true;
+        turnPlayerOrCpu();
     }
     if (playerTwo.status) {
         playerTwo.turn = true;
+        turnPlayerOrCpu();
     }
+
+    if (cpu.game.length >= 3) {
+        if (isWin(cpu.game)) {
+            winner = 'cpu';
+            numRound++;
+            cpu.victories++;
+            history[numRound] = winner;
+            if (cpu.choose === 'x') {
+                gameXCount.textContent = cpu.victories;
+            } else if (cpu.choose === 'o') {
+                gameOCount.textContent = cpu.victories;
+            }
+            cpu.textContent = cpu.victories;
+            showWin(winner);
+        }
+    }
+    checkTie();
 }
 
 function movePlayerTwo() {
@@ -165,11 +258,159 @@ function getNumberRandom(array) {
   return array[indexRandom];
 }
 
-
-
-
-
-
-
 cells.forEach(cell => cell.addEventListener('click', selectedCell));
 
+function isWin(mazo) {
+    const mazoSet = new Set(mazo);
+    for (let combo of positionWinner) {
+        if (combo.every(cell => mazoSet.has(cell))) {
+            cellsWin(combo);
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+function cellsWin(mazo) {
+    for (let number of mazo) {
+        cells.forEach(cell => {
+            if (parseInt(cell.dataset.number) === number) {
+                cell.dataset.correct = 'win';
+            }
+        })
+    }
+}
+
+const body = document.querySelector('body');
+const youWon = document.getElementById('youWon');
+const cellWon = youWon.querySelector('.cell--won');
+const textWon = youWon.querySelector('.tiktak__win');
+
+const youLost = document.getElementById('youLost');
+const cellLost = youLost.querySelector('.cell--won');
+const textLost = youLost.querySelector('.tiktak__win');
+
+const tied = document.getElementById('tied');
+
+function showWin(winner) {
+    body.classList.add('body--finishgame');
+    if (winner === 'playerOne') {
+        youWon.style.display = 'flex';
+        if (playerOne.choose === 'x') {
+            cellWon.innerHTML = x;
+            textWon.dataset.text = playerOne.choose;
+        } else if (playerOne.choose === 'o') {
+            cellWon.innerHTML = o;
+            textWon.dataset.text = playerOne.choose;
+        }
+    } else if (winner === 'cpu') {
+        youLost.style.display = 'flex';
+        if (cpu.choose === 'x') {
+            cellLost.innerHTML = x;
+            textLost.dataset.text = cpu.choose
+        } else if (cpu.choose === 'o')  {
+            cellLost.innerHTML = o;
+            textLost.dataset.text = cpu.choose
+        }
+    } else if (winner === 'tie') {
+        tied.style.display = 'flex';
+    } 
+}
+
+const btnsNext = document.querySelectorAll('.btn-next');
+const btnsQuit = document.querySelectorAll('.btn-quit');
+
+function actualizar() {
+    if (playerOne.choose === 'x') {
+        gameXCount.textContent = playerOne.victories;
+    } else if (playerOne.choose === 'o') {
+        gameOCount.textContent = playerOne.victories;
+    }
+    if (cpu.choose === 'x') {
+        gameXCount.textContent = cpu.victories;
+    } else if (cpu.choose === 'o') {
+        gameOCount.textContent = cpu.victories;
+    }
+
+    tieCount.textContent = tie.victories;
+}
+
+function nextRound(e) {
+    e.preventDefault();
+    winner = '';
+    body.classList.remove('body--finishgame');
+    youWon.style.display = 'none';
+    youLost.style.display = 'none';
+    tied.style.display = 'none';
+
+    textWon.dataset.text = '';
+    textLost.dataset.text = '';
+
+    cells.forEach(cell => {
+        cell.innerHTML = '';
+        cell.dataset.option = '';
+        cell.dataset.correct = '';
+    })
+
+    playerOne.game = [];
+    playerOne.turn = true;
+    cpu.game = [];
+    cpu.turn = false;
+    playerTwo.game = [];
+    actualizar();
+
+    cellsOptionValided = numbersCell.slice();
+    console.log(`Configuration first Player: ${JSON.stringify(playerOne)}`);
+    console.log(playerOne);
+    console.log('Valided Options start game: ', cellsOptionValided);
+}
+
+function cleanBoardCount() {
+    cells.forEach(cell => {
+        cell.innerHTML = '';
+        cell.dataset.option = '';
+        cell.dataset.correct = '';
+    })
+
+    gameXCount.textContent = '';
+    gameOCount.textContent = '';
+    tieCount.textContent = '';
+
+    history = {};
+    numRound = 1;
+    winner = '';
+
+    tie.victories = 0;
+    playerOne =  {
+        status: false,
+        choose: '',
+        victories: 0,
+        game: [],
+        turn: false
+    }
+
+    playerTwo = {
+        status: false,
+        choose: '',
+        victories: 0,
+        game: [],
+        turn: false
+    }
+
+    cpu = {
+        status: false,
+        choose: '',
+        victories: 0,
+        game: [],
+        turn: false
+    }
+    options.forEach(option => option.classList.remove('option--clicked'));
+    configurationGame.style.display = 'block';
+    boardGame.style.display = 'none';
+
+}
+
+btnsNext.forEach(btnNext => btnNext.addEventListener('click', nextRound));
+btnsQuit.forEach(btnQuit => btnQuit.addEventListener('click', cleanBoardCount));
