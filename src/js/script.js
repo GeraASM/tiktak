@@ -83,7 +83,6 @@ function startGame(e) {
             }
             if (cpu.choose === 'o') gamerO.textContent = '(CPU)';
             if (cpu.choose === 'x') gamerX.textContent = '(CPU)';
-            console.log(`Configuration CPU: ${JSON.stringify(cpu)}`);
         } else if (whoPlay === 'player') {
             playerTwo.status = true;
             if (playerOne.choose === 'x') playerTwo.choose = 'o'
@@ -94,12 +93,10 @@ function startGame(e) {
             } 
             if (playerTwo.choose === 'o') gamerO.textContent = '(PLAYER 2)';
             if (playerTwo.choose === 'x') gamerX.textContent = '(PLAYER 2)';
-            console.log(`Configuration second Player: ${JSON.stringify(playerTwo)}`);
         }
         configurationGame.style.display = 'none';
         boardGame.style.display = 'block';
     } else {
-        console.log('Remember choose one option to start the game!');
         return
     }
     turnPlayerOrCpu()
@@ -157,7 +154,6 @@ function selectedCell(e) {
         if (playerOne.turn) {
             playerOne.game.push(numberCell);
             removeNumber(numberCell);
-            console.log(`Options valided ${cellsOptionValided}`);
             if (playerOne.game.length >=3) {
                 if (isWin(playerOne.game)) {
                     winner = 'playerOne';
@@ -198,8 +194,6 @@ function selectedCell(e) {
         } else if (playerTwo.turn) {
             playerTwo.game.push(numberCell);
             removeNumber(numberCell);
-             
-            console.log(`Second player ${playerTwo}`);
             if (playerTwo.game.length >=3) {
                 if (isWin(playerTwo.game)) {
                     winner = 'playerTwo';
@@ -239,14 +233,11 @@ function selectedCell(e) {
             }
         }
     } else {
-        console.log('This cell is already in use, choose another');
         return
     }
-    console.log(`Configuration first Player: ${JSON.stringify(playerOne)}`);
 }
 
 function checkTie() {
-    console.log('Check tie: ', cellsOptionValided.length, ' Winner:', winner);
     if (cellsOptionValided.length === 0 && winner === '') {
         winner = 'tie';
         tie.victories++;
@@ -275,7 +266,6 @@ function moveCPU() {
         
     })
     removeNumber(numberChoose);
-    console.log(cellsOptionValided);
     cpu.turn = false;
     if (!cpu.turn) {
         playerOne.turn = true;
@@ -420,9 +410,6 @@ function nextRound(e) {
     actualizar();
 
     cellsOptionValided = numbersCell.slice();
-    console.log(`Configuration first Player: ${JSON.stringify(playerOne)}`);
-    console.log(playerOne);
-    console.log('Valided Options start game: ', cellsOptionValided);
     if (playerOne.status && cpu.status) {
         if (playerOne.choose === 'o') {
             moveCPU();
