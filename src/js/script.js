@@ -62,8 +62,6 @@ function optionClicked(e) {
     if (playerOne.choose === 'x') {
         gamerX.textContent = '(YOU)';
     } else {gamerO.textContent = '(YOU)';}
-    console.log(`Configuration first Player: ${JSON.stringify(playerOne)}`);
-    console.log(playerOne);
 }
 
 const btnVsCpu = document.getElementById('btn-vscpu');
@@ -77,26 +75,34 @@ function startGame(e) {
         if (whoPlay === 'cpu') {
             cpu.status = true;
             if (playerOne.choose === 'x') cpu.choose = 'o'
-            if (playerOne.choose === 'o') cpu.choose = 'x';
+            if (playerOne.choose === 'o') {
+                cpu.choose = 'x';
+                playerOne.turn = false;
+                cpu.turn = true;
+                moveCPU();
+            }
             if (cpu.choose === 'o') gamerO.textContent = '(CPU)';
             if (cpu.choose === 'x') gamerX.textContent = '(CPU)';
-            // console.log(`Configuration CPU: ${JSON.stringify(cpu)}`);
+            console.log(`Configuration CPU: ${JSON.stringify(cpu)}`);
         } else if (whoPlay === 'player') {
             playerTwo.status = true;
             if (playerOne.choose === 'x') playerTwo.choose = 'o'
-            if (playerOne.choose === 'o') playerTwo.choose = 'x';
-            if (playerTwo.choose === 'o') gamerO.textContent = '(CPU)';
-            if (playerTwo.choose === 'x') gamerX.textContent = '(CPU)';
-            // console.log(`Configuration second Player: ${JSON.stringify(playerTwo)}`);
+            if (playerOne.choose === 'o') {
+                playerTwo.choose = 'x';
+                playerOne.turn = false;
+                playerTwo.turn = true;
+            } 
+            if (playerTwo.choose === 'o') gamerO.textContent = '(PLAYER 2)';
+            if (playerTwo.choose === 'x') gamerX.textContent = '(PLAYER 2)';
+            console.log(`Configuration second Player: ${JSON.stringify(playerTwo)}`);
         }
         configurationGame.style.display = 'none';
         boardGame.style.display = 'block';
-
     } else {
         console.log('Remember choose one option to start the game!');
         return
     }
-    turnPlayerOrCpu();
+    turnPlayerOrCpu()
 
 }
 
@@ -132,56 +138,104 @@ function turnPlayerOrCpu() {
         } else if (cpu.choose === 'o') {
             optionNow.innerHTML = oTurn;
         }
-    }
+    } else if (playerTwo.turn) {
+        if (playerTwo.choose === 'x') {
+            optionNow.innerHTML = xTurn;
+        } else if (playerTwo.choose === 'o') {
+            optionNow.innerHTML = oTurn;
+        }
+    } 
 }
 
 
 function selectedCell(e) {
     const thisCell = e.currentTarget;
     const numberCell = parseInt(thisCell.dataset.number);
-    if (!playerOne.turn) {
-        console.log('Wait your turn!');
-        return
-    } 
+   
     turnPlayerOrCpu();
     if (cellsOptionValided.includes(numberCell)) {
-        playerOne.game.push(numberCell);
-        removeNumber(numberCell);
-        console.log(`Options valided ${cellsOptionValided}`);
-        if (playerOne.game.length >=3) {
-            if (isWin(playerOne.game)) {
-                winner = 'playerOne';
-                numRound++;
-                playerOne.victories++;
-                history[numRound] = winner;
-                if (playerOne.choose === 'x') {
-                    gameXCount.textContent = playerOne.victories;
-                } else if (playerOne.choose === 'o') {
-                    gameOCount.textContent = playerOne.victories;
+        if (playerOne.turn) {
+            playerOne.game.push(numberCell);
+            removeNumber(numberCell);
+            console.log(`Options valided ${cellsOptionValided}`);
+            if (playerOne.game.length >=3) {
+                if (isWin(playerOne.game)) {
+                    winner = 'playerOne';
+                    numRound++;
+                    playerOne.victories++;
+                    history[numRound] = winner;
+                    if (playerOne.choose === 'x') {
+                        gameXCount.textContent = playerOne.victories;
+                    } else if (playerOne.choose === 'o') {
+                        gameOCount.textContent = playerOne.victories;
+                    }
+                    showWin(winner);
+                } else {
+                    checkTie();
                 }
-                showWin(winner);
-            } 
-        }
-        if (playerOne.choose === 'x') {
-            thisCell.dataset.option = playerOne.choose;
-            thisCell.innerHTML = x;
-        } else if (playerOne.choose === 'o') {
-            thisCell.dataset.option = playerOne.choose;
-            thisCell.innerHTML = o;
-        }
-        playerOne.turn = false;
-        if (!playerOne.turn) {
-            if (cpu.status) {
-                cpu.turn = true;
-                turnPlayerOrCpu();
-
-                moveCPU();
-                checkTie();
             }
-            if (playerTwo.status) {
-                playerTwo.turn = true;
-                turnPlayerOrCpu();
-                movePlayerTwo();
+            if (playerOne.choose === 'x') {
+                thisCell.dataset.option = playerOne.choose;
+                thisCell.innerHTML = x;
+            } else if (playerOne.choose === 'o') {
+                thisCell.dataset.option = playerOne.choose;
+                thisCell.innerHTML = o;
+            }
+            playerOne.turn = false;
+            if (!playerOne.turn) {
+                if (cpu.status) {
+                    cpu.turn = true;
+                    turnPlayerOrCpu();
+    
+                    moveCPU();
+                    checkTie();
+                }
+                if (playerTwo.status) {
+                    playerTwo.turn = true;
+                    turnPlayerOrCpu();
+                }
+            }
+        } else if (playerTwo.turn) {
+            playerTwo.game.push(numberCell);
+            removeNumber(numberCell);
+             
+            console.log(`Second player ${playerTwo}`);
+            if (playerTwo.game.length >=3) {
+                if (isWin(playerTwo.game)) {
+                    winner = 'playerTwo';
+                    numRound++;
+                    playerTwo.victories++;
+                    history[numRound] = winner;
+                    if (playerTwo.choose === 'x') {
+                        gameXCount.textContent = playerTwo.victories;
+                    } else if (playerTwo.choose === 'o') {
+                        gameOCount.textContent = playerTwo.victories;
+                    }
+                    showWin(winner);
+                } else {
+                    checkTie();
+                }
+            }
+            if (playerTwo.choose === 'x') {
+                thisCell.dataset.option = playerTwo.choose;
+                thisCell.innerHTML = x;
+            } else if (playerTwo.choose === 'o') {
+                thisCell.dataset.option = playerTwo.choose;
+                thisCell.innerHTML = o;
+            }
+            playerTwo.turn = false;
+            if (!playerTwo.turn) {
+                if (cpu.status) {
+                    cpu.turn = true;
+                    turnPlayerOrCpu();
+    
+                    moveCPU();
+                    checkTie();
+                }
+                if (playerOne.status) {
+                    playerOne.turn = true;
+                    turnPlayerOrCpu();
+                }
             }
         }
     } else {
@@ -223,12 +277,8 @@ function moveCPU() {
     removeNumber(numberChoose);
     console.log(cellsOptionValided);
     cpu.turn = false;
-    if (playerOne.status) {
+    if (!cpu.turn) {
         playerOne.turn = true;
-        turnPlayerOrCpu();
-    }
-    if (playerTwo.status) {
-        playerTwo.turn = true;
         turnPlayerOrCpu();
     }
 
@@ -250,8 +300,6 @@ function moveCPU() {
     checkTie();
 }
 
-function movePlayerTwo() {
-}
 
 function getNumberRandom(array) {
   const indexRandom = Math.floor(Math.random() * array.length);
@@ -316,7 +364,16 @@ function showWin(winner) {
         }
     } else if (winner === 'tie') {
         tied.style.display = 'flex';
-    } 
+    } else if (winner === 'playerTwo') {
+        youWon.style.display = 'flex';
+        if (playerTwo.choose === 'x') {
+            cellWon.innerHTML = x;
+            textWon.dataset.text = playerTwo.choose;
+        } else if (playerTwo.choose === 'o') {
+            cellWon.innerHTML = o;
+            textWon.dataset.text = playerTwo.choose;
+        }
+    }
 }
 
 const btnsNext = document.querySelectorAll('.btn-next');
@@ -336,14 +393,14 @@ function actualizar() {
 
     tieCount.textContent = tie.victories;
 }
-
 function nextRound(e) {
     e.preventDefault();
-    winner = '';
     body.classList.remove('body--finishgame');
+    winner = '';
     youWon.style.display = 'none';
     youLost.style.display = 'none';
     tied.style.display = 'none';
+    youReset.style.display = 'none';
 
     textWon.dataset.text = '';
     textLost.dataset.text = '';
@@ -359,24 +416,43 @@ function nextRound(e) {
     cpu.game = [];
     cpu.turn = false;
     playerTwo.game = [];
+    playerTwo.turn = false;
     actualizar();
 
     cellsOptionValided = numbersCell.slice();
     console.log(`Configuration first Player: ${JSON.stringify(playerOne)}`);
     console.log(playerOne);
     console.log('Valided Options start game: ', cellsOptionValided);
+    if (playerOne.status && cpu.status) {
+        if (playerOne.choose === 'o') {
+            moveCPU();
+        }
+    }
+
+    if (playerOne.status && playerTwo.status) {
+        if (playerOne.choose === 'o') {
+            playerTwo.turn = true;
+            playerOne.turn = false;
+        }
+    }
 }
 
 function cleanBoardCount() {
+    body.classList.remove('body--finishgame');
+    youWon.style.display = 'none';
+    youLost.style.display = 'none';
+    tied.style.display = 'none';
+    youReset.style.display = 'none';
+    cellsOptionValided = numbersCell.slice();
     cells.forEach(cell => {
         cell.innerHTML = '';
         cell.dataset.option = '';
         cell.dataset.correct = '';
     })
 
-    gameXCount.textContent = '';
-    gameOCount.textContent = '';
-    tieCount.textContent = '';
+    gameXCount.textContent = '0';
+    gameOCount.textContent = '0';
+    tieCount.textContent = '0';
 
     history = {};
     numRound = 1;
@@ -414,3 +490,22 @@ function cleanBoardCount() {
 
 btnsNext.forEach(btnNext => btnNext.addEventListener('click', nextRound));
 btnsQuit.forEach(btnQuit => btnQuit.addEventListener('click', cleanBoardCount));
+
+
+const btnBack = document.querySelector('.tiktak__back');
+const btnCancel = document.querySelector('.btn-cancel');
+const btnReset = document.querySelector('.btn-reset');
+function showReset() {
+    body.classList.add('body--finishgame');
+    youReset.style.display = 'flex';
+
+}
+
+function cancel() {
+    body.classList.remove('body--finishgame');
+    youReset.style.display = 'none';
+}
+
+btnBack.addEventListener('click', showReset);
+btnCancel.addEventListener('click', cancel);
+btnReset.addEventListener('click', cleanBoardCount);

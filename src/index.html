@@ -34,7 +34,7 @@
             <div class="tiktak__header">
                 <img class="tiktak__logo tiktak__logo--game" src="./assets/logo.svg" alt="Logo">
                 <div class="tiktak__turn">
-                    <div class="option option--now">
+                    <div id="turnNow" class="option option--now">
                         <svg viewBox="0 0 64 64" width="72" height="72" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="CurrentColor" fill-rule="evenodd"/></svg>
                     </div>
                     <p class="tiktak__turn-text">TURN</p>
@@ -45,7 +45,7 @@
             </div>
             <section class="tiktak__board">
                 <div class="cell" data-number="1" data-option="" data-correct="">
-
+                    <!-- <svg class="x" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="CurrentColor" fill-rule="evenodd" stroke="#31C3BD" stroke-width="2"/></svg> -->
                 </div>
                 <div class="cell" data-number="2" data-option="" data-correct="">
                     <!-- <svg class="x" viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg"><path d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z" fill="CurrentColor" fill-rule="evenodd" stroke="#31C3BD" stroke-width="2"/></svg> -->
@@ -97,8 +97,6 @@
                     <div class="tiktak__btns--out">
                         <button class="btn-tiktak btn-quit" type="button">QUIT</button>
                         <button class="btn-tiktak btn-next" type="button">NEXT ROUND</button>
-                        <!-- 
-                         -->
                     </div>
             </section>
             <section id="youWon" class="tiktak__round you-won">
@@ -122,7 +120,7 @@
                     </div>
             </section>
 
-            <section class="tiktak__round you-reset">
+            <section id="youReset" class="tiktak__round you-reset">
                     <h2 class="tiktak__win">RESTART GAME?</h2>
                     <div class="tiktak__btns--out">
                         <button class="btn-tiktak btn-cancel" type="button">NO, CANCEL</button>
